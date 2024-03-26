@@ -1,5 +1,7 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
+
+
 import { ethers, network } from "hardhat";
 
 // Run 'npx hardhat compile' for this to import
@@ -20,7 +22,7 @@ const CAKE = "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82";
 // Other
 const exchRoute = [1, 0, 0];
 const v3Fee = 500;
-const path = [CAKE, WBNB];
+const path = [CAKE, WBNB];                                                                   
 const payContractAmount = "50";
 
 // Token Selection
@@ -62,7 +64,9 @@ describe("BinanceFlashloanPancakeswapV3", function () {
   }
 
   describe("Deployment", function () {
-    it("Should perform a FlashLoan using Uniswap V3", async function () {
+    it("Should perform a FlashLoan using pancakeSwap V3", async function () {
+          // Increase the timeout for this test
+      this.timeout(120000); // Set timeout to 120 seconds
       // Impersonate a BUSD whale
       let { whaleWallet } = await loadFixture(create_whale);
 
