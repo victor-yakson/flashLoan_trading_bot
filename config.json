@@ -1,6 +1,6 @@
 {
     "PROJECT_SETTINGS": {
-        "isLocal": true,
+        "isLocal":true,
         "isDeployed": true,
         "ARBITRAGE_ADDRESS": "0x4278C5d322aB92F1D876Dd7Bd9b44d1748b88af2"
     },

@@ -11,6 +11,7 @@ const Big = require("big.js");
 const IPancakeswapV2Pair = require("@uniswap/v2-core/build/IUniswapV2Pair.json");
 const IPancakeswapV3Pair = require("@pancakeswap/v3-core/artifacts/contracts/PancakeV3Pool.sol/PancakeV3Pool.json");
 const IERC20 = require("@openzeppelin/contracts/build/contracts/ERC20.json");
+const { log } = require("console");
 
 async function getTokenAndContract(_token0Address, _token1Address, _provider) {
   const token0Contract = new ethers.Contract(
@@ -68,6 +69,7 @@ async function getPairContract(
     _fee,
     _isV3
   );
+
   if (_isV3) {
     const pairContract = new ethers.Contract(
       pairAddress,
@@ -81,6 +83,7 @@ async function getPairContract(
       IPancakeswapV2Pair.abi,
       _provider
     );
+
     return pairContract;
   }
 }
@@ -101,24 +104,25 @@ async function getReserves(_pairContract, _provider, _isV3) {
 
       console.log("Reserve0:", reserve0);
       console.log("Reserve1:", reserve1);
-      return [reserve0, reserve1]
+      return [reserve0, reserve1];
     } catch (error) {
       console.error("Error fetching reserves:", error);
     }
+  } else {
+  
+    const reserves = await _pairContract.getReserves();
+    return [reserves.reserve0, reserves.reserve1];
   }
-  const reserves = await _pairContract.getReserves();
-  return [reserves.reserve0, reserves.reserve1];
 }
 
-async function calculatePrice(_pairContract) {
-  const [x, y] = await getReserves(_pairContract);
+async function calculatePrice(_pairContract, _provider, _isV3) {
+  const [x, y] = await getReserves(_pairContract, _provider, _isV3);
   return Big(x).div(Big(y));
 }
 
 async function calculateDifference(_pV2Price, _pV3Price) {
   return (((_pV3Price - _pV2Price) / _pV2Price) * 100).toFixed(2);
 }
-
 
 async function simulate(_amount, _routerPath, _token0, _token1) {
   const trade1 = await _routerPath[0].getAmountsOut(_amount, [

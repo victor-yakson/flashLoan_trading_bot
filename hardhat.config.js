@@ -1,15 +1,15 @@
-import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
-import dotenv from "dotenv";
+const { HardhatUserConfig } = require("hardhat/config");
+require("@nomicfoundation/hardhat-toolbox");
+const dotenv = require("dotenv");
 dotenv.config();
 
 // npx hardhat node --port 8700
 
-const mainnet_provider_url = process.env.MAINNET_PROVIDER_URL!;
-const testnet_provider_url = process.env.TESTNET_PROVIDER_URL!;
-const private_key = process.env.PRIVATE_KEY!;
+const mainnet_provider_url = process.env.MAINNET_PROVIDER_URL;
+const testnet_provider_url = process.env.TESTNET_PROVIDER_URL;
+const private_key = process.env.PRIVATE_KEY;
 
-const config: HardhatUserConfig = {
+const config = {
   solidity: {
     compilers: [
       {
@@ -39,4 +39,4 @@ const config: HardhatUserConfig = {
   },
 };
 
-export default config;
+module.exports = config;

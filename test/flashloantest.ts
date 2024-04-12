@@ -109,7 +109,6 @@ describe("BinanceFlashloanPancakeswapV3", function () {
       const tokenPath = path;
       const routing = exchRoute; // [0] = Uniswap V2, [1] = Uniswap V3
       const feeV3 = v3Fee; // 100, 500, 3000 or 10000 (selected lowest fee due to arb nature)
-
       // Connect Flashloan Contract
       const contractFlashLoan = new ethers.Contract(
         flashAddress,
